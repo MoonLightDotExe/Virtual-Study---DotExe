@@ -28,4 +28,14 @@
 
 .profile-suggestions {
   margin: 2rem;
+  display: flex;
+  gap: 3rem;
+}
+
+.profile-display {
+  margin: 2rem;
+}
+
+.card-custom-profile {
+  margin-bottom: 2rem;
 }

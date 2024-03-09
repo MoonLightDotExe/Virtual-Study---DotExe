@@ -19,4 +19,21 @@ const self = (module.exports = {
       })
     }
   },
+  addRoom: async (req, res) => {
+    try {
+      const data = await util_repo.addRoom(req.body)
+      console.log(data)
+      res.json({
+        success: true,
+        data,
+        msg: 'Room Added Successfully',
+      })
+    } catch (err) {
+      res.json({
+        success: false,
+        Error: err,
+        msg: 'Failed to add room',
+      })
+    }
+  },
 })

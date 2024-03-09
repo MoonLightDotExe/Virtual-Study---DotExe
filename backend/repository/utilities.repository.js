@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config()
 const users = require('../models/users.models')
 const groups = require('../models/groups.models')
+const rooms = require('../models/rooms.models')
 
 const self = (module.exports = {
   filterGroups: (body) => {
@@ -24,6 +25,23 @@ const self = (module.exports = {
             resolve(names)
           }, 3000)
         }
+      } catch (err) {
+        reject(err)
+      }
+    })
+  },
+  addRoom: (body) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const { user_id, room_id, preference, interest } = body
+        const room = await rooms.create({
+          user_id,
+          room_id,
+          preference,
+          interest,
+        })
+        await room.save()
+        resolve(room)
       } catch (err) {
         reject(err)
       }
