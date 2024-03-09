@@ -11,6 +11,7 @@ import Signup from '../Components/Signup/Signup'
 import Profile from '../Components/Profile/Profile'
 
 import './App.css'
+import Group from '../Components/Group/Group'
 
 function App() {
   const { setIsLoggedIn } = useContext(globalContext)
@@ -63,6 +64,7 @@ function App() {
             ></iframe>
           }
         ></Route>
+        <Route path='/test' element={<Group />}></Route>
       </Routes>
     </Router>
   )
