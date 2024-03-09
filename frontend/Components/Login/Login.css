@@ -1,0 +1,112 @@
+.l-login {
+  max-width: 100vw;
+  height: 100vh;
+  display: flex;
+  font-family: 'Poppins', serif;
+}
+
+.l-login-image {
+  position: relative;
+  width: 65vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.l-login-image-abs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.l-login-desc {
+  position: relative;
+  width: 40%;
+  height: 100vh;
+}
+
+.l-login-desc-head {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5%;
+  padding-left: 3rem;
+}
+
+.l-login-desc-head .l-login-primary {
+  font-size: 3rem;
+  font-weight: 500;
+  letter-spacing: 0.13rem;
+}
+
+.l-login-desc-head .l-login-secondary {
+  font-size: 1.8rem;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.l-login-inputs {
+  position: absolute;
+  top: 22%;
+  padding-top: 3rem;
+  padding-left: 3rem;
+}
+
+.l-login-element {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.l-login-element > label {
+  font-size: 1.8rem;
+  padding-bottom: 1rem;
+}
+
+.l-login-element-input {
+  width: 30rem;
+  border: 0;
+  transition: all 0.3s;
+  border-bottom: 3px solid #000;
+  font-size: 1.5rem;
+  padding: 1rem;
+  background-color: #00000008;
+}
+
+.l-login-element-input:active,
+.l-login-element-input:focus {
+  outline: none;
+}
+
+.btn2 {
+  padding: 0.8rem 1.4rem;
+  border: 0;
+  color: #fff;
+  border-radius: 0.3rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #3687ff;
+  transition: all 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0066ff;
+}
+
+.l-login-footer {
+  position: absolute;
+  font-size: 1.4rem;
+  bottom: 2%;
+  left: 40%;
+  top: 89%;
+  transform: translateX(-50%);
+}
+
+.dropdown {
+  padding: 0.31rem;
+}
