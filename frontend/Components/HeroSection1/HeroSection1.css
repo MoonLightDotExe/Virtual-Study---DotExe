@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+.color {
+  background: linear-gradient(-45deg, #23a6d5, blue, #23d5ab, yellow);
+  background-size: 400% 400%;
+  width: 50vw;
+  animation: gradient 15s ease infinite;
+  height: 75vh;
+  border-radius: 15px;
+  z-index: -1;
+  position: relative;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero_section_1-container {
+  margin-top: 3.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.hero_1-text {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+.hero_1-text--primary {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 3.3rem;
+}
+
+.hero_1-text--secondary {
+  font-size: 2rem;
+  opacity: 0.6;
+}
+
+.test {
+  z-index: 100;
+}
+
+.test-box > img {
+  border-radius: 12px;
+}
+
+.image1 {
+  position: absolute;
+  left: -40px;
+  top: -20px;
+}
+
+.image2 {
+  position: absolute;
+  left: 30%;
+  top: 50%;
+}
+
+.image3 {
+  height: 350px;
+  width: 250px;
+  position: absolute;
+  left: -30px;
+  top: 45%;
+}
+
+.image4 {
+  position: absolute;
+  left: 40%;
+  top: -5%;
+}
