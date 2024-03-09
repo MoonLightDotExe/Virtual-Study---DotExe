@@ -1,23 +1,20 @@
 const mongoose = require('mongoose')
 
 const chatSchema = new mongoose.Schema({
-    user1: {
+    name: {
+        type: String
+    },
+    groupChat: {
+        type: Boolean
+    },
+    creator: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User'
     },
-    user2: {
+    members: [{
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'User'
-    },
-    chat: [{
-        sender: {
-            type: [mongoose.Schema.Types.ObjectId],
-            ref: 'User'
-        },
-        text: {
-            type: String
-        }
     }]
 })
 
-module.exports = mongoose.model('users', chatSchema)
+module.exports = mongoose.model('chats', chatSchema)
