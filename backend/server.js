@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config()
 const connectDB = require('./config/db.config')
 const bodyParser = require('body-parser')
 const userRouter = require('./routes/users.routes')
+const groupRouter = require('./routes/groups.routes')
 const cors = require('cors')
 
 const app = express()
@@ -21,6 +22,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/users', userRouter)
+
+app.use('/api/groups', groupRouter)
 
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
