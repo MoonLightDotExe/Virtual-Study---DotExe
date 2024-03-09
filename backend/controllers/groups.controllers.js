@@ -73,11 +73,11 @@ module.exports = {
     send_attachment: async (req, res) => {
         try {
             const data = await gropu_repo.send_attachment(req.body, req.file)
-            features.emitEvent(req, events.NEW_ATTACHMENT, data.members, {
-                message: data.messageForRealTime,
-                group_id: req.body.group_id
-            })
-            features.emitEvent(req, events.NEW_MESSAGE_ALERT, data.members, { group_id: req.body.group_id })
+            // features.emitEvent(req, events.NEW_ATTACHMENT, data.members, {
+            //     message: data.messageForRealTime,
+            //     group_id: req.body.group_id
+            // })
+            //features.emitEvent(req, events.NEW_MESSAGE_ALERT, data.members, { group_id: req.body.group_id })
             res.json({
                 success: true,
                 data,
