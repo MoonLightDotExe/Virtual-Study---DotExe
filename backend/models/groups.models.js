@@ -14,16 +14,11 @@ const groupSchema = new mongoose.Schema({
     },
     members: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'User'
+        ref: 'users'
     },
     chat: [{
-        user: {
-            type: [mongoose.Schema.Types.ObjectId],
-            ref: 'User'
-        },
-        text: {
-            type: String
-        }
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Message'
     }],
     resources: [{
         name: {

@@ -1,6 +1,8 @@
 const dotenv = require('dotenv').config()
+const { emitEvent } = require('../config/features.js')
 const groups = require('../models/groups.models.js')
 const users = require('../models/users.models.js')
+const messages = require('../models/messages.models.js')
 
 const self = (module.exports = {
     create_group: (body) => {
@@ -157,6 +159,115 @@ const self = (module.exports = {
                         }
                     }
                 }
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+    get_my_groups: (body) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const { user_id } = body
+                if (!user_id) {
+                    reject({
+                        status: 400,
+                        message: 'Missing Data!',
+                    })
+                }
+                else {
+                    const userExists = await users.findOne({ _id: user_id })
+                    if (!userExists) {
+                        reject({
+                            status: 404,
+                            message: 'User not found',
+                        })
+                    }
+                    else {
+                        const groupIds = userExists.groups
+                        let userGroups = []
+                        for (let i = 0; i < groupIds.length; i++) {
+                            const grp = await groups.findOne({ _id: groupIds[i] }).populate("members", "name")
+                            userGroups.push(grp)
+                        }
+                        resolve({
+                            id: user_id,
+                            groups: userGroups
+                        })
+                    }
+                }
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+    send_attachment: (body, file) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const { group_id, user_id } = body
+                if (!group_id || !user_id) {
+                    reject({
+                        status: 400,
+                        message: 'Missing Data!',
+                    })
+                }
+                else {
+                    const groupExists = await groups.findById(group_id)
+                    const { name } = await users.findById(user_id)
+                    const files = file
+                    if (!files) {
+                        reject({
+                            status: 400,
+                            message: 'No file uploaded!',
+                        })
+                    }
+                    else {
+                        //upload files
+                        const attachments = []
+
+                        const messageForDB = {
+                            content: "",
+                            attachments,
+                            sender: user_id,
+                            chat: {
+                                isGroup: true,
+                                referenceObjId: group_id
+                            }
+                        }
+
+                        const messageForRealTime = {
+                            content: "",
+                            attachments,
+                            group_id,
+                            sender: {
+                                _id: user_id,
+                                name
+                            },
+
+                        }
+
+                        const message = await messages.create(messageForDB)
+
+                        resolve({
+                            messageForRealTime,
+                            messageForDB,
+                            members: groupExists.members
+                        })
+                    }
+                }
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+    get_group_messages: (body) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const { group_id } = body
+                const response = await messages.find({
+                    'chat.isGroup': true,
+                    'chat.referenceObjId': group_id
+                }).populate('sender', 'name')
+                resolve(response)
             } catch (error) {
                 reject(error)
             }

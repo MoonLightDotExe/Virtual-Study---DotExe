@@ -8,4 +8,10 @@ groupRouter.post('/join', groups.join_group)
 
 groupRouter.post('/remove', groups.remove_user)
 
+groupRouter.post('/get_my_groups', groups.get_my_groups)
+
+groupRouter.post('/send_attachment', groups.send_attachment)
+
+groupRouter.post('/get_group_messages', groups.get_group_messages)
+
 module.exports = groupRouter

@@ -93,4 +93,7 @@ const self = (module.exports = {
     generateToken: () => {
         return jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
     },
+    search_user: (body) => {
+        const { name } = body
+    }
 })

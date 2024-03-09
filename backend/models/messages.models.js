@@ -5,12 +5,16 @@ const messageSchema = new mongoose.Schema({
         type: String
     },
     sender: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'User'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
     },
     chat: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Chat'
+        isGroup: {
+            type: Boolean
+        },
+        referenceObjId: {
+            type: mongoose.Schema.Types.ObjectId
+        }
     },
     attachments: [{
         public_id: {
