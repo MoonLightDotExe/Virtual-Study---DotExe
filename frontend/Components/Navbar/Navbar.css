@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.navbar {
+  box-shadow: black;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 95px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  font-size: 1.2rem;
+}
+.logo {
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+.nav {
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+.login {
+  background-color: white;
+  color: rgb(26, 105, 222);
+  border-style: solid;
+  border: 1px solid rgb(26, 105, 222);
+  height: 35px;
+  width: 100px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.signup {
+  background-color: rgb(26, 105, 222);
+  color: white;
+  border: none;
+  height: 35px;
+  width: 100px;
+  border-radius: 2px;
+  cursor: pointer;
+  margin-right: 8px;
+}
