@@ -3,6 +3,13 @@ const { emitEvent } = require('../config/features.js')
 const groups = require('../models/groups.models.js')
 const users = require('../models/users.models.js')
 const messages = require('../models/messages.models.js')
+const AWS = require('aws-sdk');
+
+// Configure AWS SDK with your credentials and S3 bucket information
+const s3 = new AWS.S3({
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+});
 
 const self = (module.exports = {
     create_group: (body) => {
@@ -214,6 +221,7 @@ const self = (module.exports = {
                     const groupExists = await groups.findById(group_id)
                     const { name } = await users.findById(user_id)
                     const files = file
+                    console.log(files)
                     if (!files) {
                         reject({
                             status: 400,
@@ -221,12 +229,34 @@ const self = (module.exports = {
                         })
                     }
                     else {
-                        //upload files
-                        const attachments = []
+                        //upload file to amazon s3 bucket
+                        const uploadFileToS3 = async (file) => {
+                            const bucketName = process.env.S3_BUCKET_NAME; // Replace with your bucket name
+                            const fileName = files.originalname; // Replace with the desired name for the file in the bucket
+                            const fileContent = files.buffer; // Assuming 'file' contains the data of the file
+
+                            // Setting up S3 upload parameters
+                            const params = {
+                                Bucket: bucketName,
+                                Key: fileName,
+                                Body: fileContent,
+                            };
+
+                            try {
+                                const data = await s3.upload(params).promise();
+                                console.log('File uploaded successfully to:', data.Location);
+                                return data.Location; // Returning the URL of the uploaded file
+                            } catch (error) {
+                                console.error('Error uploading file to S3:', error);
+                                throw error;
+                            }
+                        };
+                        const uploadedFileUrl = await uploadFileToS3(files);
+                        console.log('Uploaded file URL:', uploadedFileUrl);
 
                         const messageForDB = {
                             content: "",
-                            attachments,
+                            // attachments,
                             sender: user_id,
                             chat: {
                                 isGroup: true,
@@ -236,7 +266,7 @@ const self = (module.exports = {
 
                         const messageForRealTime = {
                             content: "",
-                            attachments,
+                            // attachments,
                             group_id,
                             sender: {
                                 _id: user_id,
@@ -255,6 +285,7 @@ const self = (module.exports = {
                     }
                 }
             } catch (error) {
+                console.log(error)
                 reject(error)
             }
         })
