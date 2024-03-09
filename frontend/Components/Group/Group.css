@@ -1,0 +1,91 @@
+.group-container {
+    display: flex;
+}
+
+.group-list {
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.group-list h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    /* Dark blue */
+}
+
+.group-list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.group-list li {
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.group-list li:hover {
+    background-color: #f0f5ff;
+    /* Light blue */
+}
+
+.message-container {
+    flex: 3;
+    padding: 20px;
+}
+
+.messages {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.message {
+    background-color: #e4f1fe;
+    /* Lighter blue */
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.message p {
+    margin: 0;
+}
+
+.message .sender {
+    font-weight: bold;
+    color: #2980b9;
+    /* Blue */
+}
+
+/* Add this to Group.css */
+.message-input {
+    margin-top: 20px;
+}
+
+.message-input input {
+    width: calc(100% - 70px);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.message-input button {
+    width: 60px;
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2980b9;
+    /* Blue */
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.message-input button:hover {
+    background-color: #2c3e50;
+    /* Darker blue */
+}

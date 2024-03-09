@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react'
+import axios from 'axios'
 
 const globalContext = createContext()
 
@@ -55,14 +56,15 @@ export const GlobalProvider = ({ children }) => {
         val: parseInt(val),
         user_id: localStorage.getItem('user_id'),
       }
-      const response = await fetch(
-        'http://localhost:3000/api/utils/filterGroup',
-        {
-          method: 'POST',
-          body: JSON.stringify(sendbody),
-        }
-      )
-      const data = await response.json()
+      console.log("In Filter Profile Function:", sendbody)
+      // const response = await fetch(
+      //   'http://localhost:3000/api/utils/filterGroup',
+      //   {
+      //     method: 'POST',
+      //     body: JSON.stringify(sendbody),
+      //   }
+      // )
+      const { data } = await axios.post('http://localhost:3000/api/utils/filterGroup', sendbody)
       console.log(data)
     } catch (err) {
       console.log(err)

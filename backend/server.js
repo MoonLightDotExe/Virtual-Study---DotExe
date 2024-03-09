@@ -14,8 +14,13 @@ const { NEW_MESSAGE } = require('./constants/events')
 const UUID = require('uuid')
 
 const app = express()
-const server = http.createServer(app)
-const io = new Server(server, {})
+// const server = http.createServer(app)
+// const io = new Server(server, {})
+const io = new Server(3001, {
+  cors: {
+    origin: "http://localhost:5173",
+  }
+});
 
 const userSocketIDs = new Map()
 
@@ -46,7 +51,6 @@ io.on('connection', (socket) => {
   socket.on(
     NEW_MESSAGE,
     async ({ user_id, username, group_id, members, message }) => {
-      userSocketIDs.set(user_id, socket.id)
       const messageForRealTime = {
         content: message,
         _id: UUID.v4(),
@@ -65,6 +69,7 @@ io.on('connection', (socket) => {
         },
       }
       const memberSockets = getSockets(members)
+      console.log("Member Sockets:", memberSockets)
       io.to(memberSockets).emit(NEW_MESSAGE, {
         group_id,
         message: messageForRealTime,
@@ -76,9 +81,14 @@ io.on('connection', (socket) => {
       }
     }
   )
-  socket.on('disconnect', () => {
+  socket.on("SET_ID", (user_id) => {
+    userSocketIDs.set(user_id, socket.id)
+    console.log("socket map:", userSocketIDs)
+  })
+  socket.on('disconnect', (user_id) => {
     console.log('User Disconnected')
-    userSocketIDs.delete(user._id.toString())
+    userSocketIDs.delete(user_id)
+    console.log(userSocketIDs)
   })
 })
 
@@ -86,7 +96,10 @@ const getSockets = (users = []) => {
   const sockets = users.map((user) => userSocketIDs.get(user.toString()))
   return sockets
 }
+// server.listen(3001, () => {
+//   console.log('Sockets listening on 3001')
+// })
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`)
 })
