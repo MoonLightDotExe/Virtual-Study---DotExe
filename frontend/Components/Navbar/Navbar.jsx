@@ -16,15 +16,18 @@ function Navbar() {
   }
   return (
     <>
-      <nav class='navbar'>
-        <div class='logo'>
+      <nav className='navbar'>
+        <Link
+          to='/'
+          className='logo'
+        >
           <img
             src={logo}
             height='50'
             width='100'
           />
-        </div>
-        <div class='nav'>
+        </Link>
+        <div className='nav'>
           <a
             href=''
             className='text-black'

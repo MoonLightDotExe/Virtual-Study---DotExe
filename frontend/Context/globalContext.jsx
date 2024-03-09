@@ -4,6 +4,7 @@ const globalContext = createContext()
 
 export const GlobalProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [queue, setQueue] = useState()
   const register = async (body) => {
     try {
       const response = await fetch('http://localhost:3000/api/users/register', {
@@ -47,9 +48,29 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  const filterProfile = async (val) => {
+    try {
+      const sendbody = {
+        val: val,
+        user_id: localStorage.getItem('user_id'),
+      }
+      const response = await fetch(
+        'http://localhost:3000/api/utils/filterGroup',
+        {
+          method: 'POST',
+          body: JSON.stringify(sendbody),
+        }
+      )
+      const data = await response.json()
+      console.log(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <globalContext.Provider
-      value={{ register, login, isLoggedIn, setIsLoggedIn }}
+      value={{ register, login, isLoggedIn, setIsLoggedIn, filterProfile }}
     >
       {children}
     </globalContext.Provider>

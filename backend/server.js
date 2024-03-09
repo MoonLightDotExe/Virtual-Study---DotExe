@@ -6,6 +6,7 @@ const userRouter = require('./routes/users.routes')
 const groupRouter = require('./routes/groups.routes')
 const cors = require('cors')
 const multerMiddleware = require('./middlewares/multer')
+const utilsRouter = require('./routes/utilities.routes')
 
 const app = express()
 
@@ -17,16 +18,18 @@ connectDB()
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ extended: true, limit: '30mb' }))
-app.use(multerMiddleware.attachmentsMulter);
+app.use(multerMiddleware.attachmentsMulter)
 
 app.get('/', (req, res) => {
-    res.send('HELLO')
+  res.send('HELLO')
 })
 
 app.use('/api/users', userRouter)
 
 app.use('/api/groups', groupRouter)
 
+app.use('/api/utils', utilsRouter)
+
 app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`)
+  console.log(`listening on port ${PORT}`)
 })
