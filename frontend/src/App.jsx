@@ -11,10 +11,12 @@ import Signup from '../Components/Signup/Signup'
 import Profile from '../Components/Profile/Profile'
 
 import './App.css'
+import Waiting from '../Components/Waiting/Waiting'
+import ChatRoom from '../Components/ChatRoom/ChatRoom'
 import Group from '../Components/Group/Group'
 
 function App() {
-  const { setIsLoggedIn } = useContext(globalContext)
+  const { setIsLoggedIn, room_id } = useContext(globalContext)
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -54,17 +56,16 @@ function App() {
         ></Route>
         <Route
           path='/call'
-          element={
-            <iframe
-              allow='camera; microphone; display-capture; autoplay;'
-              width='1700px'
-              height='700px'
-              src='https://loc.digitalsamba.com/sivisYfL9i5Ep3y'
-              allowfullscreen='true'
-            ></iframe>
-          }
+          element={<ChatRoom id={room_id} />}
         ></Route>
-        <Route path='/test' element={<Group />}></Route>
+        <Route
+          path='/waiting'
+          element={<Waiting />}
+        ></Route>
+        <Route
+          path='/test'
+          element={<Group />}
+        ></Route>
       </Routes>
     </Router>
   )

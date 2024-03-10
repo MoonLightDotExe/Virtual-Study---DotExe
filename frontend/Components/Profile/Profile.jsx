@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 
+import { useNavigate } from 'react-router-dom'
 import {
   Modal,
   ModalOverlay,
@@ -13,13 +14,23 @@ import {
   Select,
   Input,
   Stack,
+  Box,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Heading,
+  Text,
+  Flex,
+  Spacer,
 } from '@chakra-ui/react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import globalContext from '../../Context/globalContext'
 import './Profile.css'
 
 function Profile() {
-  const { filterProfile } = useContext(globalContext)
+  const { filterProfile, queue, setQueue, setRoom_id } =
+    useContext(globalContext)
   const [select, setSelect] = useState(0)
   const [sel, setSel] = useState('SP')
   const [input, setInput] = useState()
@@ -31,6 +42,7 @@ function Profile() {
     console.log(e)
     setSel(e.target.value)
   }
+  const navigate = useNavigate()
   const handleSubmit = async () => {
     try {
       const body = new URLSearchParams()
@@ -47,8 +59,9 @@ function Profile() {
         }
       )
       const data = await response.json()
+      setRoom_id(data.room_url)
+      navigate('/call')
       console.log(data)
-      navigate('/waiting')
     } catch (err) {
       console.log(err)
     }
@@ -66,33 +79,99 @@ function Profile() {
       <div className='profile-container'>
         <div className='profile-header'>Your Space</div>
         <div className='profile-suggestions'>
-          <Select onChange={handleChange}>
-            <option
-              value='1'
+          <div
+            style={{
+              width: '300px',
+            }}
+          >
+            <Select
+              size='md'
               onChange={handleChange}
             >
-              All
-            </option>
-            <option
-              value='2'
-              onChange={handleChange}
-            >
-              Explore
-            </option>
-            <option
-              value='3'
-              onChange={handleChange}
-            >
-              Groups
-            </option>
-            <option
-              value='4'
-              onChange={handleChange}
-            >
-              DMs
-            </option>
-          </Select>
-          <Button onClick={handleClick}>Submit</Button>
+              <option
+                value='1'
+                onChange={handleChange}
+              >
+                All
+              </option>
+              <option
+                value='2'
+                onChange={handleChange}
+              >
+                Explore
+              </option>
+              <option
+                value='3'
+                onChange={handleChange}
+              >
+                Groups
+              </option>
+              <option
+                value='4'
+                onChange={handleChange}
+              >
+                DMs
+              </option>
+            </Select>
+          </div>
+          <Button
+            variant='solid'
+            colorScheme='twitter'
+            onClick={handleClick}
+          >
+            Submit
+          </Button>
+        </div>
+
+        <div className='profile-display'>
+          <div className='card-custom-profile'>
+            <Card>
+              <CardBody>
+                <Flex>
+                  <Box>
+                    <Heading
+                      size='xs'
+                      textTransform='uppercase'
+                    >
+                      Summary
+                    </Heading>
+                    <Text
+                      pt='2'
+                      fontSize='sm'
+                    >
+                      View a summary of all your clients over the last month.
+                    </Text>
+                  </Box>
+                  <Spacer />
+                  <Button colorScheme='green'>JOIN</Button>
+                </Flex>
+              </CardBody>
+            </Card>
+          </div>
+          <div className='card-custom-profile'>
+            <Card>
+              <CardBody>
+                <Flex>
+                  <Box>
+                    <Heading
+                      size='xs'
+                      textTransform='uppercase'
+                    >
+                      Summary
+                    </Heading>
+                    <Text
+                      pt='2'
+                      fontSize='sm'
+                    >
+                      View a summary of all your clients over the last month.
+                    </Text>
+                  </Box>
+                  <Spacer />
+                  <Button colorScheme='green'>JOIN</Button>
+                </Flex>
+              </CardBody>
+            </Card>
+          </div>
         </div>
 
         <button

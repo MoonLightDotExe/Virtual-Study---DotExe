@@ -6,6 +6,7 @@ const globalContext = createContext()
 export const GlobalProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [queue, setQueue] = useState()
+  const [room_id, setRoom_id] = useState()
   const register = async (body) => {
     try {
       const response = await fetch('http://localhost:3000/api/users/register', {
@@ -52,7 +53,7 @@ export const GlobalProvider = ({ children }) => {
   const filterProfile = async (val) => {
     try {
       const sendbody = {
-        val: val,
+        val: parseInt(val),
         user_id: localStorage.getItem('user_id'),
       }
       console.log("In Filter Profile Function:", sendbody)
@@ -72,7 +73,17 @@ export const GlobalProvider = ({ children }) => {
 
   return (
     <globalContext.Provider
-      value={{ register, login, isLoggedIn, setIsLoggedIn, filterProfile }}
+      value={{
+        register,
+        login,
+        isLoggedIn,
+        setIsLoggedIn,
+        filterProfile,
+        queue,
+        setQueue,
+        room_id,
+        setRoom_id,
+      }}
     >
       {children}
     </globalContext.Provider>
