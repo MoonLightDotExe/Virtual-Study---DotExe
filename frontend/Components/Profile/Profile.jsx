@@ -46,6 +46,13 @@ function Profile() {
     console.log(e)
     setSel(e.target.value)
   }
+  const handleTranscript = async (e) => {
+    try {
+      const response = await fetch('')
+    } catch (err) {
+      console.log(err)
+    }
+  }
   const navigate = useNavigate()
   const handleSubmit = async () => {
     try {
@@ -190,6 +197,13 @@ function Profile() {
           onClick={onOpen}
         >
           New Room
+        </button>
+
+        <button
+          className='buttons3'
+          onClick={handleTranscript}
+        >
+          Get recent transcript
         </button>
 
         <Modal

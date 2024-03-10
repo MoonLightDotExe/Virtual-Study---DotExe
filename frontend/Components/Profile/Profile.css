@@ -18,6 +18,20 @@
   left: 90%;
 }
 
+.buttons3 {
+  width: 8rem;
+  height: 4rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+  color: #fff;
+  background-color: #22c35e;
+  border-radius: 15px;
+  position: sticky;
+  top: 88%;
+  margin: 0;
+  left: 80%;
+}
+
 .profile-header {
   margin: 2rem;
   font-size: 3rem;
