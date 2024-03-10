@@ -15,9 +15,10 @@ import Waiting from '../Components/Waiting/Waiting'
 import ChatRoom from '../Components/ChatRoom/ChatRoom'
 import Group from '../Components/Group/Group'
 import ViewResources from '../Components/ViewResources/ViewResources'
+import Transcript from '../Components/Transcript/Transcript'
 
 function App() {
-  const { setIsLoggedIn, room_id } = useContext(globalContext)
+  const { setIsLoggedIn, room_id, trans } = useContext(globalContext)
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -62,6 +63,15 @@ function App() {
         <Route
           path='/waiting'
           element={<Waiting />}
+        ></Route>
+        <Route
+          path='/transcript'
+          element={
+            <>
+              <Navbar />
+              <Transcript transcript={trans} />
+            </>
+          }
         ></Route>
         <Route
           path='/test'
