@@ -5,6 +5,7 @@ const globalContext = createContext()
 
 export const GlobalProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [trans, setTrans] = useState()
   const [queue, setQueue] = useState()
   const [room_id, setRoom_id] = useState()
   const register = async (body) => {
@@ -79,6 +80,8 @@ export const GlobalProvider = ({ children }) => {
         setQueue,
         room_id,
         setRoom_id,
+        trans,
+        setTrans,
       }}
     >
       {children}

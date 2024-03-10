@@ -29,7 +29,7 @@ import globalContext from '../../Context/globalContext'
 import './Profile.css'
 
 function Profile() {
-  const { filterProfile, queue, setQueue, setRoom_id } =
+  const { filterProfile, queue, setQueue, setRoom_id, setTrans, trans } =
     useContext(globalContext)
   const [select, setSelect] = useState(0)
   const [sel, setSel] = useState('SP')
@@ -48,7 +48,30 @@ function Profile() {
   }
   const handleTranscript = async (e) => {
     try {
-      const response = await fetch('')
+      const response = await fetch(
+        'https://api.digitalsamba.com/api/v1/recordings',
+        {
+          method: 'GET',
+          headers: {
+            Authorization:
+              'Bearer OGE5MzEwMmMtZGNlZi00MDNhLTg0ZmYtMjFiZWJmMzdhZjFjOkYyaDNOb3NlczR2SU9kQWZUS2pQaTRuRDY0R1BWYVJmNzdLY1R6MG5HaWVLSjJ3UWpFb3h0eFFvOG9idE5oc0U=',
+          },
+        }
+      )
+      const data = await response.json()
+      console.log(data.data[0].id)
+      const response2 = await fetch(
+        `http://127.0.0.1:5000/get_audio_link_and_transcript/${data.data[0].id}`,
+        {
+          method: 'GET',
+        }
+      )
+      const data2 = await response2.json()
+      if (data2) {
+        setTrans(data2.transcript)
+        navigate('/transcript')
+      }
+      console.log(data2)
     } catch (err) {
       console.log(err)
     }

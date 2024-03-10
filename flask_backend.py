@@ -1,10 +1,11 @@
 import requests
 import os
 from flask import Flask, jsonify
+from flask_cors import CORS
 import subprocess  # For shell command execution
 
 app = Flask(__name__)
-
+CORS(app)
 # Replace with your actual team ID and developer key
 TEAM_ID = "8a93102c-dcef-403a-84ff-21bebf37af1c"
 DEV_KEY = "F2h3Noses4vIOdAfTKjPi4nD64GPVaRf77KcTz0nGieKJ2wQjEoxtxQo8obtNhsE"
