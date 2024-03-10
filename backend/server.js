@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
           referenceObjId: group_id,
         },
       }
+      console.log(members)
       const memberSockets = getSockets(members)
       console.log("Member Sockets:", memberSockets)
       io.to(memberSockets).emit(NEW_MESSAGE, {
@@ -83,17 +84,15 @@ io.on('connection', (socket) => {
   )
   socket.on("SET_ID", (user_id) => {
     userSocketIDs.set(user_id, socket.id)
-    console.log("socket map:", userSocketIDs)
+    console.log(userSocketIDs)
   })
   socket.on('disconnect', (user_id) => {
-    console.log('User Disconnected')
     userSocketIDs.delete(user_id)
-    console.log(userSocketIDs)
   })
 })
 
-const getSockets = (users = []) => {
-  const sockets = users.map((user) => userSocketIDs.get(user.toString()))
+const getSockets = (users) => {
+  const sockets = users.map((user) => userSocketIDs.get(user._id))
   return sockets
 }
 // server.listen(3001, () => {
