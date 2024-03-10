@@ -4,6 +4,7 @@ const groups = require('../models/groups.models.js')
 const users = require('../models/users.models.js')
 const messages = require('../models/messages.models.js')
 const AWS = require('aws-sdk');
+const axios = require('axios')
 
 // Configure AWS SDK with your credentials and S3 bucket information
 const s3 = new AWS.S3({
@@ -254,6 +255,14 @@ const self = (module.exports = {
                         const uploadedFileUrl = await uploadFileToS3(files);
                         console.log('Uploaded file URL:', uploadedFileUrl);
 
+                        const entryForDB = {
+                            name: files.originalname,
+                            link: uploadedFileUrl
+                        }
+
+                        groupExists.resources.push(entryForDB)
+                        await groupExists.save()
+
                         const messageForDB = {
                             content: "",
                             // attachments,
@@ -300,6 +309,40 @@ const self = (module.exports = {
                 }).populate('sender', 'name')
                 resolve(response)
             } catch (error) {
+                reject(error)
+            }
+        })
+    },
+    get_group_resources: (body) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const { group_id } = body
+                const groupExists = await groups.findById(group_id)
+                const resources = groupExists.resources
+                let getNames = []
+                for (let i = 0; i < resources.length; i++) {
+                    getNames.push(resources[i].name)
+                }
+                console.log(getNames)
+
+                let sendResults = []
+
+                for (let i = 0; i < getNames.length; i++) {
+                    // Generate a presigned URL to retrieve the file
+                    const params = {
+                        Bucket: process.env.S3_BUCKET_NAME,
+                        Key: getNames[i],
+                        Expires: 3600 // URL expiration time in seconds (e.g., 3600 for 1 hour)
+                    };
+
+                    // Get the presigned URL
+                    const presignedUrl = s3.getSignedUrl('getObject', params);
+                    sendResults.push({ name: getNames[i], url: presignedUrl })
+                }
+                console.log(sendResults)
+                resolve(sendResults)
+            } catch (error) {
+                console.log(error)
                 reject(error)
             }
         })

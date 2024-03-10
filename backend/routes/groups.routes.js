@@ -14,4 +14,6 @@ groupRouter.post('/send_attachment', groups.send_attachment)
 
 groupRouter.post('/get_group_messages', groups.get_group_messages)
 
+groupRouter.post('/get_group_resources', groups.get_group_resources)
+
 module.exports = groupRouter

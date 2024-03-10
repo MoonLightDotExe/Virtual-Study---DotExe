@@ -106,5 +106,22 @@ module.exports = {
                 msg: 'Failed to retreive messages',
             })
         }
+    },
+    get_group_resources: async (req, res) => {
+        try {
+            const data = await gropu_repo.get_group_resources(req.body)
+            console.log(data)
+            res.json({
+                success: true,
+                data,
+                msg: 'Resources Retreived Successfully',
+            })
+        } catch (error) {
+            res.json({
+                success: false,
+                Error: error,
+                msg: 'Failed to retreive resources',
+            })
+        }
     }
 }

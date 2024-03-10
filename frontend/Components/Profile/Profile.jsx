@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react'
-
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Modal,
@@ -27,6 +26,8 @@ import {
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import globalContext from '../../Context/globalContext'
 import './Profile.css'
+import Group from '../Group/Group'
+import axios from 'axios'
 
 function Profile() {
   const { filterProfile, queue, setQueue, setRoom_id } =
@@ -34,6 +35,7 @@ function Profile() {
   const [select, setSelect] = useState(0)
   const [sel, setSel] = useState('SP')
   const [input, setInput] = useState()
+  const [makingNewGroup, setMakingNewGroup] = useState('')
   const handleChange = (e) => {
     setSelect(e.target.value)
 
@@ -56,6 +58,12 @@ function Profile() {
   const navigate = useNavigate()
   const handleSubmit = async () => {
     try {
+      //create new group
+      const newGrp = await axios.post('http://localhost:3000/api/groups/create',
+        { name: input, user_id: localStorage.getItem('user_id') })
+
+      setMakingNewGroup(newGrp.data)
+
       const body = new URLSearchParams()
       body.append('privacy', 'public')
       const response = await fetch(
@@ -150,7 +158,7 @@ function Profile() {
             Submit
           </Button>
         </div>
-
+        {select == 3 && <Group />}
         <div className='profile-display'>
           {chats.map((chat, index) => {
             return (
@@ -194,7 +202,10 @@ function Profile() {
 
         <button
           className='buttons2'
-          onClick={onOpen}
+          onClick={() => {
+            onOpen()
+            //create new room
+          }}
         >
           New Room
         </button>

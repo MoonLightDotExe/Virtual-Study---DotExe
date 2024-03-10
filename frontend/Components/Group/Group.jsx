@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Group.css'
 import Message from '../Message/Message';
 import axios from 'axios'
 import io from 'socket.io-client';
 import EventEmitter from 'eventemitter3';
+import { Link } from 'react-router-dom';
 
 const eventEmitter = new EventEmitter();
 
@@ -12,6 +13,7 @@ let grpName = ''
 let myGrps
 
 const Group = () => {
+    const fileInputRef = useRef(null);
     const [myGroups, setMyGroups] = useState([])
     const [myMessages, setMyMessages] = useState([])
     // const [selectedGroup, setSelectedGroup] = useState('');
@@ -115,6 +117,30 @@ const Group = () => {
                             onChange={(e) => setMessageText(e.target.value)}
                         />
                         <button onClick={handleMessageSend}>Send</button>
+                        <input type="file" id="fileInput" name="fileInput" ref={fileInputRef} style={{ "width": "fit-content", "marginTop": "10px" }} />
+                        <button style={{ "width": "fit-content" }} onClick={async () => {
+                            try {
+                                //file upload to s3
+                                const fileInput = fileInputRef.current.files[0];
+                                const groupId = selectedGroup
+                                const userId = localStorage.getItem('user_id')
+
+                                console.log(fileInput)
+                                console.log(groupId)
+                                console.log(userId)
+
+                                const formData = new FormData();
+                                formData.append('files', fileInput);
+                                formData.append('group_id', groupId);
+                                formData.append('user_id', userId);
+
+                                const { data } = await axios.post('http://localhost:3000/api/groups/send_attachment', formData)
+                                console.log(data)
+                            } catch (error) {
+                                console.log(error)
+                            }
+                        }}>Upload</button>
+                        <Link to={`/resources/${selectedGroup}`}><button style={{ "width": "fit-content" }}>View Resources</button></Link>
                     </div>
                 }
             </div>

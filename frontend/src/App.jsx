@@ -14,6 +14,7 @@ import './App.css'
 import Waiting from '../Components/Waiting/Waiting'
 import ChatRoom from '../Components/ChatRoom/ChatRoom'
 import Group from '../Components/Group/Group'
+import ViewResources from '../Components/ViewResources/ViewResources'
 
 function App() {
   const { setIsLoggedIn, room_id } = useContext(globalContext)
@@ -65,6 +66,10 @@ function App() {
         <Route
           path='/test'
           element={<Group />}
+        ></Route>
+        <Route
+          path='/resources/:group_id'
+          element={<ViewResources />}
         ></Route>
       </Routes>
     </Router>
