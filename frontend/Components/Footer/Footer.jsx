@@ -11,18 +11,18 @@ function Footer() {
             class='wave'
             id='wave1'
           ></div>
-          <div
+          {/* <div
             class='wave'
             id='wave2'
-          ></div>
+          ></div> */}
           <div
             class='wave'
             id='wave3'
           ></div>
-          <div
+          {/* <div
             class='wave'
             id='wave4'
-          ></div>
+          ></div> */}
         </div>
         <ul class='social-icon'>
           <li class='social-icon__item'>

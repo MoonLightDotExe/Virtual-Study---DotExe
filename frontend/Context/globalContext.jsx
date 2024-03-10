@@ -56,16 +56,12 @@ export const GlobalProvider = ({ children }) => {
         val: parseInt(val),
         user_id: localStorage.getItem('user_id'),
       }
-      console.log("In Filter Profile Function:", sendbody)
-      // const response = await fetch(
-      //   'http://localhost:3000/api/utils/filterGroup',
-      //   {
-      //     method: 'POST',
-      //     body: JSON.stringify(sendbody),
-      //   }
-      // )
-      const { data } = await axios.post('http://localhost:3000/api/utils/filterGroup', sendbody)
+      const { data } = await axios.post(
+        'http://localhost:3000/api/utils/filterGroup',
+        sendbody
+      )
       console.log(data)
+      return data
     } catch (err) {
       console.log(err)
     }

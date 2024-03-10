@@ -10,7 +10,11 @@ const self = (module.exports = {
         const { val, user_id } = body
         console.log(val + ' ' + user_id)
         let names = []
-        if (val == 3) {
+        if (val == 2) {
+          const room = await rooms.find({})
+          console.log(room)
+          resolve(room)
+        } else if (val == 3) {
           console.log(val + ' ' + user_id)
           const user = await users.findOne({ _id: user_id })
           console.log(user)

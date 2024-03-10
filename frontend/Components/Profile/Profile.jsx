@@ -36,7 +36,11 @@ function Profile() {
   const [input, setInput] = useState()
   const handleChange = (e) => {
     setSelect(e.target.value)
+
     console.log(select)
+  }
+  const handleInput = (e) => {
+    setInput(e.target.value)
   }
   const handleChange2 = (e) => {
     console.log(e)
@@ -60,18 +64,35 @@ function Profile() {
       )
       const data = await response.json()
       setRoom_id(data.room_url)
+      const bodyParams = new URLSearchParams()
+      bodyParams.append('user_id', localStorage.getItem('user_id'))
+      bodyParams.append('room_id', data.rool_url)
+      bodyParams.append('preference', sel)
+      bodyParams.append('interest', input)
+
+      const resp2 = await fetch('http://localhost:3000/api/utils/addRoom', {
+        method: 'POST',
+        body: bodyParams,
+      })
+      const data2 = await resp2.json()
+      console.log(data2)
       navigate('/call')
-      console.log(data)
     } catch (err) {
       console.log(err)
     }
   }
+  const [chats, setChats] = useState([])
   const handleClick = async () => {
     try {
-      await filterProfile(select)
+      const data = await filterProfile(select)
+      setChats(data.data)
     } catch (err) {
       console.log(err)
     }
+  }
+  const handleJoin = async (val) => {
+    setRoom_id(val)
+    navigate('/call')
   }
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
@@ -124,54 +145,44 @@ function Profile() {
         </div>
 
         <div className='profile-display'>
-          <div className='card-custom-profile'>
-            <Card>
-              <CardBody>
-                <Flex>
-                  <Box>
-                    <Heading
-                      size='xs'
-                      textTransform='uppercase'
-                    >
-                      Summary
-                    </Heading>
-                    <Text
-                      pt='2'
-                      fontSize='sm'
-                    >
-                      View a summary of all your clients over the last month.
-                    </Text>
-                  </Box>
-                  <Spacer />
-                  <Button colorScheme='green'>JOIN</Button>
-                </Flex>
-              </CardBody>
-            </Card>
-          </div>
-          <div className='card-custom-profile'>
-            <Card>
-              <CardBody>
-                <Flex>
-                  <Box>
-                    <Heading
-                      size='xs'
-                      textTransform='uppercase'
-                    >
-                      Summary
-                    </Heading>
-                    <Text
-                      pt='2'
-                      fontSize='sm'
-                    >
-                      View a summary of all your clients over the last month.
-                    </Text>
-                  </Box>
-                  <Spacer />
-                  <Button colorScheme='green'>JOIN</Button>
-                </Flex>
-              </CardBody>
-            </Card>
-          </div>
+          {chats.map((chat, index) => {
+            return (
+              <div
+                className='card-custom-profile'
+                key={index}
+              >
+                <Card>
+                  <CardBody>
+                    <Flex>
+                      <Box>
+                        <Heading
+                          size='xs'
+                          textTransform='uppercase'
+                        >
+                          {chat.preference || chat}
+                        </Heading>
+                        <Text
+                          pt='2'
+                          fontSize='sm'
+                        >
+                          {chat.interest || chat}
+                        </Text>
+                      </Box>
+                      <Spacer />
+                      {chat.room_id && (
+                        <Button
+                          colorScheme='green'
+                          onClick={() => handleJoin(chat.room_id)}
+                        >
+                          JOIN
+                        </Button>
+                      )}
+                    </Flex>
+                  </CardBody>
+                </Card>
+              </div>
+            )
+          })}
         </div>
 
         <button
@@ -194,19 +205,19 @@ function Profile() {
                 <label className='label-form'>Select Type:</label>
                 <Select onChange={handleChange2}>
                   <option
-                    value='SP'
+                    value='Student Preference'
                     onChange={handleChange2}
                   >
                     Student Preference
                   </option>
                   <option
-                    value='S'
+                    value='Subject'
                     onChange={handleChange2}
                   >
                     Subject
                   </option>
                   <option
-                    value='T'
+                    value='Topic'
                     onChange={handleChange2}
                   >
                     Topic
@@ -217,7 +228,7 @@ function Profile() {
                 <label className='label-form'>Enter Interests:</label>
                 <Input
                   value={input}
-                  onChange={handleChange}
+                  onChange={handleInput}
                 />
               </Stack>
             </ModalBody>
